@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BOOM DRINKS - Un BOOM de sabor en cada sorbo. Bebidas artesanales, energéticas y modernas.">
+  <title>BOOM DRINKS | Un BOOM de Sabor</title>
+
+  <!-- Google Fonts: Syne (Headings) & Outfit (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="hero">
+
+  <!-- Dynamic Ambient Glow Backdrop -->
+  <div class="ambient-glow" id="ambientGlow"></div>
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Top Glassmorphism Navigation -->
+  <header class="main-header" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo">
+        <img 
+          src="assets/images/ChatGPT Image 1 sept 2026, 11_30_24 p.m..png" 
+          alt="BOOM DRINKS Logo" 
+          class="logo-img"
+          onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='inline-block';"
+        >
+        <span id="brandFallback" class="brand-text">BOOM <span class="accent-text">DRINKS</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#hero" class="nav-link active">Inicio</a>
+        <a href="#productos" class="nav-link">Productos</a>
+        <a href="#la-toxica" class="nav-link">La Tóxica</a>
+        <a href="#nosotros" class="nav-link">Nosotros</a>
+        <a href="#valores" class="nav-link">Valores</a>
+        <a href="#empaque" class="nav-link">Empaque</a>
+        <a href="#contacto" class="nav-link nav-btn">Contacto</a>
+      </nav>
+
+      <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Abrir Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" class="mobile-link">Inicio</a>
+    <a href="#productos" class="mobile-link">Productos</a>
+    <a href="#la-toxica" class="mobile-link">La Tóxica</a>
+    <a href="#nosotros" class="mobile-link">Nosotros</a>
+    <a href="#valores" class="mobile-link">Valores</a>
+    <a href="#empaque" class="mobile-link">Presentación</a>
+    <a href="#contacto" class="mobile-link">Contacto</a>
+  </div>
+
+  <!-- Side Dot Progress Navigation -->
+  <aside class="side-navigation" aria-label="Navegación lateral">
+    <a href="#hero" class="dot-item active" data-tooltip="Portada"><span></span></a>
+    <a href="#productos" class="dot-item" data-tooltip="Productos"><span></span></a>
+    <a href="#blue-shark" class="dot-item" data-tooltip="Blue Shark"><span></span></a>
+    <a href="#cherry-sprite" class="dot-item" data-tooltip="Cherry Sprite"><span></span></a>
+    <a href="#purple-blast" class="dot-item" data-tooltip="Purple Blast"><span></span></a>
+    <a href="#la-toxica" class="dot-item" data-tooltip="La Tóxica"><span></span></a>
+    <a href="#nosotros" class="dot-item" data-tooltip="Misión y Visión"><span></span></a>
+    <a href="#valores" class="dot-item" data-tooltip="Valores"><span></span></a>
+    <a href="#empaque" class="dot-item" data-tooltip="Empaque"><span></span></a>
+    <a href="#experiencia" class="dot-item" data-tooltip="Experiencia"><span></span></a>
+    <a href="#contacto" class="dot-item" data-tooltip="Contacto"><span></span></a>
+  </aside>
+
+  <main>
+    <!-- 1. HERO / PORTADA -->
+    <section class="section hero-section" id="hero" data-theme-color="hero">
+      <div class="hero-content">
+        <div class="hero-badge">NUEVA GENERACIÓN DE BEBIDAS</div>
+        <div class="hero-logo-box">
+          <img 
+            src="assets/images/ChatGPT Image 1 sept 2026, 11_30_24 p.m..png" 
+            alt="BOOM DRINKS" 
+            class="hero-main-logo"
+            onerror="this.style.display='none'; document.getElementById('heroTitleFallback').style.display='block';"
+          >
+          <h1 id="heroTitleFallback" class="hero-title glitch-text" style="display:none;">BOOM DRINKS</h1>
+        </div>
+        <p class="hero-slogan">"Un <span class="gradient-text">BOOM</span> de sabor en cada sorbo"</p>
+        
+        <div class="hero-cta-wrapper">
+          <a href="#productos" class="btn btn-primary">EXPLORAR SABORES</a>
+          <a href="#experiencia" class="btn btn-glass">VIVIR LA EXPERIENCIA</a>
+        </div>
+      </div>
+
+      <!-- Floating 3D/Visual Elements in Hero -->
+      <div class="hero-floating-elements">
+        <div class="floating-orb orb-blue"></div>
+        <div class="floating-orb orb-red"></div>
+        <div class="floating-orb orb-purple"></div>
+        <div class="floating-tag tag-1">100% ENERGÍA</div>
+        <div class="floating-tag tag-2">SABOR INTENSO</div>
+        <div class="floating-tag tag-3">PREMIUM MIX</div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span class="scroll-text">SCROLL PARA DESCUBRIR</span>
+        <div class="mouse-icon">
+          <div class="wheel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SECCIÓN PRODUCTOS GENERAL -->
+    <section class="section products-overview-section" id="productos" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">EXPLORA NUESTRO CATÁLOGO</span>
+          <h2 class="section-title">CREACIONES <span class="gradient-text-alt">ICÓNICAS</span></h2>
+          <p class="section-subtitle">Diseñadas para despertar tus sentidos con combinaciones explosivas y texturas únicas.</p>
+        </div>
+
+        <div class="products-grid">
+          <!-- Card 1 -->
+          <div class="product-preview-card card-blue" data-target="blue-shark">
+            <div class="card-glow"></div>
+            <div class="card-number">01</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-blue">
+                <div class="ice-cube i1"></div>
+                <div class="ice-cube i2"></div>
+                <div class="gummy-shark">🦈</div>
+                <div class="liquid-level liquid-blue"></div>
+              </div>
+            </div>
+            <h3 class="product-card-title">BLUE SHARK</h3>
+            <p class="product-card-desc">Frescura glacial, gomitas azules y un shot de adrenalina pura.</p>
+            <a href="#blue-shark" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="product-preview-card card-red" data-target="cherry-sprite">
+            <div class="card-glow"></div>
+            <div class="card-number">02</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-red">
+                <div class="ice-cube i1"></div>
+                <div class="cherry-icon">🍒</div>
+                <div class="lime-slice">🍋</div>
+                <div class="liquid-level liquid-red"></div>
+              </div>
+            </div>
+            <h3 class="product-card-title">CHERRY SPRITE</h3>
+            <p class="product-card-desc">Dúo electrizante de cerezas maduras con toque cítrico y efervescente.</p>
+            <a href="#cherry-sprite" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="product-preview-card card-purple" data-target="purple-blast">
+            <div class="card-glow"></div>
+            <div class="card-number">03</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-purple">
+                <div class="ice-cube i1"></div>
+                <div class="mint-leaf">🌿</div>
+                <div class="lime-slice">🍋</div>
+                <div class="liquid-level liquid-purple"></div>
+              </div>
+            </div>
+            <h3 class="product-card-title">PURPLE BLAST</h3>
+            <p class="product-card-desc">Fusión mística azul-púrpura realzada con hierbabuena fresca y limón.</p>
+            <a href="#purple-blast" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BLUE SHARK -->
+    <section class="section showcase-section theme-blue" id="blue-shark" data-theme-color="blue">
+      <div class="showcase-container">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #01</span>
+          <h2 class="showcase-title">BLUE <span class="highlight-blue">SHARK</span></h2>
+          <p class="showcase-tagline">Frescura que domina las profundidades.</p>
+          <p class="showcase-description">
+            Una impactante presentación azul cristalina servida sobre cubos de hielo crujiente y acompañada con gomitas temáticas de tiburón. Cada sorbo libera una ola refrescante con notas dulces y energizantes que transforman tu estado de ánimo al instante.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box">
+              <i data-lucide="snowflake"></i>
+              <span>Ultra Frío</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="zap"></i>
+              <span>Sabor Intenso</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="sparkles"></i>
+              <span>Gomitas Azules</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo blue-halo"></div>
+          <div class="drink-hero-render render-blue">
+            <div class="cup-wrapper">
+              <!-- Placeholder interactivo estilizado para reemplazar por foto -->
+              <div class="cup-body">
+                <div class="liquid-fill blue-fill">
+                  <div class="wave"></div>
+                </div>
+                <div class="floating-item f-ice-1">🧊</div>
+                <div class="floating-item f-ice-2">🧊</div>
+                <div class="floating-item f-shark-1">🦈</div>
+                <div class="floating-item f-shark-2">🦈</div>
+                <div class="straw"></div>
+              </div>
+              <div class="cup-base"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CHERRY SPRITE -->
+    <section class="section showcase-section theme-red" id="cherry-sprite" data-theme-color="red">
+      <div class="showcase-container reverse">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #02</span>
+          <h2 class="showcase-title">CHERRY <span class="highlight-red">SPRITE</span></h2>
+          <p class="showcase-tagline">La chispa rebelde entre dulce y cítrico.</p>
+          <p class="showcase-description">
+            Vibrante bebida en degradados rojo rubí y rosados intensos, infusionada con la esencia viva de cerezas silvestres y rodajas de limón fresco. Una explosión de sabor que cautiva la vista y activa tus momentos más sociales.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box">
+              <i data-lucide="flame"></i>
+              <span>Efervescente</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="citrus"></i>
+              <span>Cítrico & Dulce</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="heart"></i>
+              <span>Cerezas Reales</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo red-halo"></div>
+          <div class="drink-hero-render render-red">
+            <div class="cup-wrapper">
+              <div class="cup-body">
+                <div class="liquid-fill red-fill">
+                  <div class="wave"></div>
+                </div>
+                <div class="floating-item f-cherry-1">🍒</div>
+                <div class="floating-item f-cherry-2">🍒</div>
+                <div class="floating-item f-lime-1">🍋</div>
+                <div class="floating-item f-ice-3">🧊</div>
+                <div class="straw straw-red"></div>
+              </div>
+              <div class="cup-base"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PURPLE BLAST -->
+    <section class="section showcase-section theme-purple" id="purple-blast" data-theme-color="purple">
+      <div class="showcase-container">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #03</span>
+          <h2 class="showcase-title">PURPLE <span class="highlight-purple">BLAST</span></h2>
+          <p class="showcase-tagline">Magia cromática con aroma botánico.</p>
+          <p class="showcase-description">
+            Una fascinante combinación bifásica entre azul profundo y morado cósmico. Equilibrada meticulosamente con zumo de limón y hojas de hierbabuena maceradas para brindar una experiencia sensorial fresca, aromática e inolvidable.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box">
+              <i data-lucide="sparkle"></i>
+              <span>Bifásica</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="leaf"></i>
+              <span>Hierbabuena</span>
+            </div>
+            <div class="attribute-box">
+              <i data-lucide="shield"></i>
+              <span>Sabor Místico</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo purple-halo"></div>
+          <div class="drink-hero-render render-purple">
+            <div class="cup-wrapper">
+              <div class="cup-body">
+                <div class="liquid-fill purple-fill">
+                  <div class="wave"></div>
+                </div>
+                <div class="floating-item f-mint-1">🌿</div>
+                <div class="floating-item f-mint-2">🌿</div>
+                <div class="floating-item f-lime-2">🍋</div>
+                <div class="floating-item f-ice-4">🧊</div>
+                <div class="straw straw-purple"></div>
+              </div>
+              <div class="cup-base"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PRODUCTO EXTRA: LA TÓXICA -->
+    <section class="section toxica-section" id="la-toxica" data-theme-color="dark">
+      <div class="container">
+        <div class="toxica-card">
+          <div class="toxica-badge">PRODUCTO EXTRA & EXCLUSIVO</div>
+          <div class="toxica-grid">
+            <div class="toxica-text">
+              <h2 class="toxica-title">LA <span class="toxica-accent">TÓXICA</span></h2>
+              <p class="toxica-subtitle">"Un acompañamiento fresco y picosito para disfrutar con nuestras bebidas."</p>
+              <p class="toxica-desc">
+                Una bandeja premium de fruta preparada creada para contrastar y potenciar la experiencia líquida de BOOM DRINKS. Presentada en una bandeja negra alimentaria de alta resistencia, sellada con tapa protectora transparente y nuestra etiqueta circular distintiva.
+              </p>
+
+              <h4 class="ingredients-title">Ingredientes y Toppings Selectos:</h4>
+              <div class="toxica-ingredients-grid">
+                <span class="ingredient-pill"><i data-lucide="check"></i> Manzana Verde</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Mango Fresco</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Sandía Dulce</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Mamones</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Limón Jugoso</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Chile en Polvo</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="flame"></i> Salsa Azul Picosita</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="sparkles"></i> Gomitas de Tiburón</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="zap"></i> Snacks Crujientes Azules</span>
+              </div>
+            </div>
+
+            <div class="toxica-visual-box">
+              <div class="tray-representation">
+                <div class="tray-rim">
+                  <div class="tray-surface">
+                    <div class="tray-fruit f-mango">🥭</div>
+                    <div class="tray-fruit f-apple">🍏</div>
+                    <div class="tray-fruit f-watermelon">🍉</div>
+                    <div class="tray-fruit f-sauce">⚡ SALSA AZUL</div>
+                    <div class="tray-fruit f-sharks">🦈 CRUNCH AZUL</div>
+                    <div class="tray-brand-seal">
+                      <span>BOOM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tray-badge-float">
+                <i data-lucide="package-check"></i> Bandeja Apta para Alimentos
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 & 8. MISIÓN & VISIÓN -->
+    <section class="section corporate-section" id="nosotros" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">NUESTRA ESENCIA</span>
+          <h2 class="section-title">EL PROPÓSITO DE <span class="gradient-text">BOOM</span></h2>
+        </div>
+
+        <div class="mission-vision-grid">
+          <!-- Misión -->
+          <div class="corp-card mission-card">
+            <div class="card-icon"><i data-lucide="target"></i></div>
+            <h3 class="corp-title">MISIÓN</h3>
+            <p class="corp-text">
+              Elaborar y comercializar bebidas de 
+              <span class="pop-word pop-blue">CALIDAD</span>, 
+              higiénicas, 
+              <span class="pop-word pop-red">INNOVADORAS</span> 
+              y accesibles, satisfaciendo las necesidades de nuestros clientes y promoviendo el 
+              <span class="pop-word pop-purple">TRABAJO COOPERATIVO</span>, 
+              la 
+              <span class="pop-word pop-blue">RESPONSABILIDAD</span> 
+              y el desarrollo económico de nuestros asociados.
+            </p>
+          </div>
+
+          <!-- Visión -->
+          <div class="corp-card vision-card">
+            <div class="card-icon"><i data-lucide="compass"></i></div>
+            <h3 class="corp-title">VISIÓN</h3>
+            <p class="corp-text">
+              Ser una cooperativa reconocida en el mercado de bebidas por la excelencia, 
+              <span class="pop-word pop-purple">INNOVACIÓN</span> 
+              y variedad de nuestros productos, destacándonos por una 
+              <span class="pop-word pop-red">EXCELENTE ATENCIÓN</span>, 
+              responsabilidad empresarial y un compromiso inquebrantable con la comunidad.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. VALORES INTERACTIVOS -->
+    <section class="section values-section" id="valores" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">NUESTROS PILARES</span>
+          <h2 class="section-title">VALORES QUE NOS <span class="gradient-text-alt">IMPULSAN</span></h2>
+          <p class="section-subtitle">Toca o pasa el cursor sobre cada valor para descubrir cómo lo vivimos día a día.</p>
+        </div>
+
+        <div class="values-interactive-grid">
+          <!-- 1 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="award"></i></div>
+            <h4 class="value-name">CALIDAD</h4>
+            <p class="value-desc">Insumos seleccionados y procesos rigurosos en cada preparación.</p>
+          </div>
+          <!-- 2 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="shield-check"></i></div>
+            <h4 class="value-name">RESPONSABILIDAD</h4>
+            <p class="value-desc">Compromiso ético con nuestros clientes, asociados y entorno.</p>
+          </div>
+          <!-- 3 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="users"></i></div>
+            <h4 class="value-name">TRABAJO EN EQUIPO</h4>
+            <p class="value-desc">Sinergia cooperativa donde cada esfuerzo suma al éxito común.</p>
+          </div>
+          <!-- 4 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="lightbulb"></i></div>
+            <h4 class="value-name">INNOVACIÓN</h4>
+            <p class="value-desc">Reinventamos sabores, presentaciones y sensaciones permanentemente.</p>
+          </div>
+          <!-- 5 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="scale"></i></div>
+            <h4 class="value-name">EQUIDAD</h4>
+            <p class="value-desc">Trato justo, oportunidades equitativas y bienestar compartido.</p>
+          </div>
+          <!-- 6 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="eye"></i></div>
+            <h4 class="value-name">TRANSPARENCIA</h4>
+            <p class="value-desc">Claridad absoluta en nuestros ingredientes y operaciones.</p>
+          </div>
+          <!-- 7 -->
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="sparkles"></i></div>
+            <h4 class="value-name">HIGIENE</h4>
+            <p class="value-desc">Protocolos de inocuidad impecables en cada etapa del servicio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. PRESENTACIÓN Y EMPAQUE -->
+    <section class="section packaging-section" id="empaque" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">DISEÑO Y SERVICIO</span>
+          <h2 class="section-title">PRESENTACIÓN & <span class="gradient-text">EMPAQUE</span></h2>
+          <p class="section-subtitle">Envases concebidos para apreciar los colores vivos, el hielo cristalino y la decoración de autor.</p>
+        </div>
+
+        <div class="packaging-grid">
+          <!-- Opción 1 -->
+          <div class="pack-card">
+            <div class="pack-badge">EXPERIENCIA EN MESA</div>
+            <div class="pack-visual">
+              <div class="glass-render">
+                <div class="glass-reflection"></div>
+                <div class="liquid-glimmer"></div>
+              </div>
+            </div>
+            <h3 class="pack-title">Consumo en el Lugar</h3>
+            <p class="pack-text">Servido en elegantes vasos largos de vidrio templado que permiten una visión de 360° de la mezcla, resaltando la pureza del hielo y la viveza de los colores.</p>
+            <ul class="pack-list">
+              <li><i data-lucide="check-circle-2"></i> Cristal ultra transparente</li>
+              <li><i data-lucide="check-circle-2"></i> Mantiene la temperatura óptima</li>
+              <li><i data-lucide="check-circle-2"></i> Decoración visible al 100%</li>
+            </ul>
+          </div>
+
+          <!-- Opción 2 -->
+          <div class="pack-card">
+            <div class="pack-badge">ON THE GO</div>
+            <div class="pack-visual">
+              <div class="cup-to-go-render">
+                <div class="cup-to-go-lid"></div>
+                <div class="cup-sticker">
+                  <span>BOOM</span>
+                </div>
+              </div>
+            </div>
+            <h3 class="pack-title">Para Llevar</h3>
+            <p class="pack-text">Vaso desechable de polímero cristalino de alta densidad con tapa hermética anti-derrames, pajilla ergonómica y nuestro sello adhesivo circular BOOM DRINKS.</p>
+            <ul class="pack-list">
+              <li><i data-lucide="check-circle-2"></i> Tapa de seguridad hermética</li>
+              <li><i data-lucide="check-circle-2"></i> Pajilla resistente</li>
+              <li><i data-lucide="check-circle-2"></i> Etiqueta oficial circular</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. EXPERIENCIA BOOM DRINKS -->
+    <section class="section experience-section" id="experiencia" data-theme-color="dark">
+      <div class="experience-backdrop"></div>
+      <div class="experience-content text-center">
+        <h3 class="exp-small">REDEFINIENDO EL CONCEPTO</h3>
+        <h2 class="exp-title-1 reveal-text">NO ES SOLO UNA BEBIDA.</h2>
+        <h2 class="exp-title-2 gradient-text reveal-text-accent">ES UN BOOM DE SABOR.</h2>
+        <p class="exp-subtext">Una explosión refrescante que fusiona la coctelería moderna con la cultura urbana.</p>
+      </div>
+    </section>
+
+    <!-- 12. CONTACTO / CALL TO ACTION -->
+    <section class="section contact-section" id="contacto" data-theme-color="dark">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-header text-center">
+            <h2 class="contact-title">¿LISTO PARA EL <span class="gradient-text">BOOM</span>?</h2>
+            <p class="contact-slogan">"Un BOOM de sabor en cada sorbo"</p>
+          </div>
+
+          <div class="contact-actions">
+            <a href="#productos" class="btn btn-primary btn-large">
+              <i data-lucide="layers"></i> CONOCE NUESTROS PRODUCTOS
+            </a>
+            <a href="mailto:contacto@boomdrinks.com" class="btn btn-glass btn-large">
+              <i data-lucide="mail"></i> CONTÁCTANOS DIRECTAMENTE
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="social-circle" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" class="social-circle" aria-label="TikTok"><i data-lucide="video"></i></a>
+            <a href="#" class="social-circle" aria-label="WhatsApp"><i data-lucide="message-circle"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <span class="footer-brand">BOOM DRINKS</span>
+        <p class="footer-legal">BOOM DRINKS de R.L. &copy; Todos los derechos reservados.</p>
+      </div>
+      <div class="footer-right">
+        <span class="footer-tag">Prototipo Oficial de Marca</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="js/script.js"></script>
+  <script>
+    // Inicializar iconos de Lucide
+    lucide.createIcons();
+  </script>
+</body>
+</html>
