@@ -1,259 +1,2146 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boom Drinks | Energía e Innovación</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #030712;
-            color: #f3f4f6;
-            overflow-x: hidden;
-        }
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glow-effect {
-            box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.15);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BOOM DRINKS - Un BOOM de sabor en cada sorbo. Bebidas artesanales y modernas.">
+  <title>BOOM DRINKS | Un BOOM de Sabor</title>
+
+  <!-- Google Fonts: Syne (Títulos de impacto) & Outfit (Lectura moderna) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons & GSAP Animation Suite (CDN Oficial) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       VARIABLES Y SISTEMA DE DISEÑO CINEMÁTICO DARK
+       ========================================================================== */
+    :root {
+      --bg-primary: #050608;
+      --bg-secondary: #0c0e14;
+      --bg-card: rgba(16, 20, 30, 0.75);
+      --bg-card-hover: rgba(24, 30, 46, 0.9);
+
+      --color-blue: #0088ff;
+      --color-blue-glow: rgba(0, 136, 255, 0.45);
+      --color-red: #ff1e56;
+      --color-red-glow: rgba(255, 30, 86, 0.45);
+      --color-purple: #9d00ff;
+      --color-purple-glow: rgba(157, 0, 255, 0.45);
+      --color-white: #ffffff;
+      --color-gray-100: #e2e8f0;
+      --color-gray-400: #94a3b8;
+      --color-gray-700: #334155;
+
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'Outfit', sans-serif;
+
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --border-glass: 1px solid rgba(255, 255, 255, 0.08);
+      --border-glass-hover: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      background-color: var(--bg-primary);
+      color: var(--color-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Resplandor ambiental reactivo de fondo */
+    .ambient-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 75vw;
+      height: 75vh;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 136, 255, 0.15) 0%, rgba(157, 0, 255, 0.1) 40%, transparent 70%);
+      filter: blur(130px);
+      pointer-events: none;
+      z-index: 0;
+      transition: background 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .text-center { text-align: center; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #00d2ff 0%, #ff1e56 50%, #9d00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-text-alt {
+      background: linear-gradient(135deg, #9d00ff 0%, #0088ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* HEADER & NAVEGACIÓN SUPERIOR */
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 22px 0;
+      z-index: 1000;
+      transition: var(--transition-smooth);
+    }
+
+    .main-header.scrolled {
+      padding: 12px 0;
+      background: rgba(5, 6, 8, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: var(--border-glass);
+    }
+
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--color-white);
+    }
+
+    .logo-img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px rgba(0, 136, 255, 0.6));
+    }
+
+    .brand-text {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .accent-text { color: var(--color-blue); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-link {
+      color: var(--color-gray-400);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--color-white);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-blue);
+      transition: var(--transition-smooth);
+    }
+
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    .nav-btn {
+      padding: 8px 22px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      border: var(--border-glass);
+    }
+
+    .nav-btn:hover {
+      background: var(--color-blue);
+      box-shadow: 0 0 20px var(--color-blue-glow);
+    }
+
+    .nav-btn::after { display: none !important; }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mobile-toggle span {
+      width: 26px;
+      height: 2px;
+      background: var(--color-white);
+      transition: var(--transition-smooth);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 6, 8, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-link {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      color: var(--color-white);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    /* NAVEGACIÓN LATERAL POR PUNTOS */
+    .side-navigation {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 900;
+    }
+
+    .dot-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-decoration: none;
+    }
+
+    .dot-item span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: var(--transition-smooth);
+    }
+
+    .dot-item:hover span, .dot-item.active span {
+      width: 12px;
+      height: 12px;
+      background: var(--color-blue);
+      box-shadow: 0 0 12px var(--color-blue);
+    }
+
+    .dot-item::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      right: 24px;
+      background: rgba(16, 20, 30, 0.9);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--color-white);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(10px);
+      pointer-events: none;
+      transition: var(--transition-smooth);
+      border: var(--border-glass);
+    }
+
+    .dot-item:hover::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-blue) 0%, #0055ff 100%);
+      color: var(--color-white);
+      box-shadow: 0 10px 30px var(--color-blue-glow);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 136, 255, 0.6);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: var(--border-glass);
+      color: var(--color-white);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .btn-large {
+      padding: 18px 36px;
+      font-size: 1.05rem;
+    }
+
+    /* ESTRUCTURA GENERAL DE SECCIONES */
+    .section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 0;
+    }
+
+    .section-header { margin-bottom: 60px; }
+
+    .sub-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      color: var(--color-blue);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--color-gray-400);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* ==========================================================================
+       1. HERO
+       ========================================================================== */
+    .hero-section {
+      min-height: 100vh;
+      flex-direction: column;
+      padding-top: 140px;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto;
+      z-index: 10;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: var(--border-glass);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--color-gray-100);
+      margin-bottom: 24px;
+    }
+
+    .hero-logo-box { margin-bottom: 20px; }
+
+    .hero-main-logo {
+      max-width: 320px;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 35px rgba(0, 136, 255, 0.45));
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: 5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-slogan {
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--color-gray-100);
+      margin-bottom: 36px;
+    }
+
+    .hero-cta-wrapper {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.6;
+    }
+
+    .orb-blue {
+      width: 260px;
+      height: 260px;
+      background: var(--color-blue);
+      top: 20%;
+      left: 10%;
+      animation: floatOrb 8s infinite alternate ease-in-out;
+    }
+
+    .orb-red {
+      width: 220px;
+      height: 220px;
+      background: var(--color-red);
+      bottom: 20%;
+      right: 12%;
+      animation: floatOrb 10s infinite alternate-reverse ease-in-out;
+    }
+
+    .orb-purple {
+      width: 200px;
+      height: 200px;
+      background: var(--color-purple);
+      top: 30%;
+      right: 25%;
+      animation: floatOrb 9s infinite alternate ease-in-out;
+    }
+
+    .floating-tag {
+      position: absolute;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 20, 30, 0.7);
+      backdrop-filter: blur(12px);
+      border: var(--border-glass);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--color-white);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .tag-1 { top: 28%; left: 18%; animation: floatTag 5s infinite ease-in-out; }
+    .tag-2 { top: 60%; left: 14%; animation: floatTag 6s infinite ease-in-out 1s; }
+    .tag-3 { top: 35%; right: 15%; animation: floatTag 5.5s infinite ease-in-out 2s; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.7;
+    }
+
+    .scroll-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      color: var(--color-gray-400);
+    }
+
+    .mouse-icon {
+      width: 20px;
+      height: 32px;
+      border: 2px solid var(--color-gray-400);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .wheel {
+      width: 4px;
+      height: 6px;
+      background: var(--color-blue);
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: mouseWheel 2s infinite;
+    }
+
+    /* ==========================================================================
+       2. PRODUCTOS RESUMEN
+       ========================================================================== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .product-preview-card {
+      position: relative;
+      background: var(--bg-card);
+      border: var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 40px 30px;
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-preview-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--border-glass-hover);
+      background: var(--bg-card-hover);
+    }
+
+    .card-number {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 800;
+      opacity: 0.4;
+      margin-bottom: 20px;
+    }
+
+    .card-visual {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .product-card-title {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .product-card-desc {
+      color: var(--color-gray-400);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition-smooth);
+    }
+
+    .card-link:hover {
+      color: var(--color-blue);
+      gap: 12px;
+    }
+
+    /* Mockups interactivos para cards */
+    .drink-mockup {
+      width: 90px;
+      height: 140px;
+      border-radius: 12px 12px 20px 20px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .liquid-blue { background: linear-gradient(180deg, #00d2ff, #0055ff); }
+    .liquid-red { background: linear-gradient(180deg, #ff416c, #ff1e56); }
+    .liquid-purple { background: linear-gradient(180deg, #00d2ff, #9d00ff); }
+
+    .liquid-level {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80%;
+      opacity: 0.85;
+    }
+
+    .ice-cube {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .i1 { top: 30px; left: 15px; transform: rotate(15deg); }
+    .i2 { top: 60px; right: 20px; transform: rotate(45deg); }
+
+    .gummy-shark, .cherry-icon, .lime-slice, .mint-leaf {
+      position: absolute;
+      font-size: 1.4rem;
+      z-index: 5;
+    }
+    .gummy-shark { top: 40px; right: 10px; }
+    .cherry-icon { top: 35px; right: 15px; }
+    .lime-slice { top: 15px; left: 10px; }
+    .mint-leaf { top: 40px; right: 12px; }
+
+    /* ==========================================================================
+       3, 4, 5. SHOWCASE DE PRODUCTOS (IMÁGENES ORGANIZADAS)
+       ========================================================================== */
+    .showcase-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .showcase-container.reverse { direction: rtl; }
+    .showcase-container.reverse .showcase-content { direction: ltr; }
+
+    .product-number-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      opacity: 0.6;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .showcase-title {
+      font-size: 4rem;
+      margin-bottom: 12px;
+    }
+
+    .highlight-blue { color: var(--color-blue); text-shadow: 0 0 30px var(--color-blue-glow); }
+    .highlight-red { color: var(--color-red); text-shadow: 0 0 30px var(--color-red-glow); }
+    .highlight-purple { color: #c042ff; text-shadow: 0 0 30px var(--color-purple-glow); }
+
+    .showcase-tagline {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-gray-100);
+      margin-bottom: 20px;
+    }
+
+    .showcase-description {
+      color: var(--color-gray-400);
+      font-size: 1.05rem;
+      margin-bottom: 36px;
+      line-height: 1.8;
+    }
+
+    .attributes-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .attribute-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: var(--border-glass);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .attribute-box i {
+      color: var(--color-white);
+      width: 18px;
+      height: 18px;
+    }
+
+    .showcase-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .visual-halo {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 1;
+    }
+
+    .blue-halo { background: rgba(0, 136, 255, 0.35); }
+    .red-halo { background: rgba(255, 30, 86, 0.35); }
+    .purple-halo { background: rgba(157, 0, 255, 0.35); }
+
+    .drink-hero-render {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .product-img-real {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+    }
+
+    .cup-wrapper {
+      position: relative;
+      width: 220px;
+      height: 380px;
+      margin: 0 auto;
+    }
+
+    .cup-body {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px 20px 45px 45px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+
+    .liquid-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 85%;
+    }
+
+    .blue-fill { background: linear-gradient(180deg, rgba(0,210,255,0.9), rgba(0,85,255,0.95)); }
+    .red-fill { background: linear-gradient(180deg, rgba(255,65,108,0.9), rgba(255,30,86,0.95)); }
+    .purple-fill { background: linear-gradient(180deg, rgba(0,180,255,0.9), rgba(157,0,255,0.95)); }
+
+    .floating-item {
+      position: absolute;
+      font-size: 2rem;
+      z-index: 10;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      animation: floatSlow 4s infinite ease-in-out alternate;
+    }
+
+    .f-ice-1 { top: 20%; left: 20%; font-size: 1.6rem; }
+    .f-ice-2 { top: 50%; right: 25%; font-size: 1.4rem; animation-delay: 1s; }
+    .f-ice-3 { top: 30%; right: 20%; font-size: 1.5rem; }
+    .f-ice-4 { top: 40%; left: 30%; font-size: 1.5rem; }
+    .f-shark-1 { top: 30%; right: 15%; }
+    .f-shark-2 { top: 65%; left: 25%; font-size: 1.6rem; animation-delay: 1.5s; }
+    .f-cherry-1 { top: 25%; left: 25%; }
+    .f-cherry-2 { top: 55%; right: 20%; animation-delay: 1.2s; }
+    .f-lime-1 { top: 15%; right: 15%; }
+    .f-lime-2 { top: 20%; right: 25%; }
+    .f-mint-1 { top: 25%; left: 20%; }
+    .f-mint-2 { top: 60%; right: 30%; animation-delay: 1.8s; }
+
+    .straw {
+      position: absolute;
+      top: -40px;
+      right: 50px;
+      width: 14px;
+      height: 420px;
+      background: rgba(255, 255, 255, 0.7);
+      transform: rotate(8deg);
+      border-radius: 6px;
+      z-index: 1;
+    }
+
+    .straw-red { background: rgba(255, 180, 200, 0.7); }
+    .straw-purple { background: rgba(220, 180, 255, 0.7); }
+
+    /* ==========================================================================
+       6. LA TÓXICA (PRODUCTO EXTRA)
+       ========================================================================== */
+    .toxica-section { padding: 100px 0; }
+
+    .toxica-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(16, 20, 30, 0.85) 0%, rgba(8, 10, 15, 0.95) 100%);
+      border: 1px solid rgba(255, 30, 86, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 60px 48px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .toxica-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255, 30, 86, 0.15);
+      border: 1px solid rgba(255, 30, 86, 0.4);
+      color: var(--color-red);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      border-radius: var(--radius-full);
+      margin-bottom: 24px;
+    }
+
+    .toxica-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .toxica-title {
+      font-size: 3.5rem;
+      margin-bottom: 8px;
+    }
+
+    .toxica-accent {
+      color: var(--color-red);
+      text-shadow: 0 0 25px rgba(255, 30, 86, 0.5);
+    }
+
+    .toxica-subtitle {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--color-gray-100);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .toxica-desc {
+      color: var(--color-gray-400);
+      font-size: 1rem;
+      margin-bottom: 28px;
+    }
+
+    .ingredients-title {
+      font-size: 1rem;
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    .toxica-ingredients-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ingredient-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.05);
+      border: var(--border-glass);
+      font-size: 0.85rem;
+      color: var(--color-gray-100);
+    }
+
+    .ingredient-pill i {
+      width: 14px;
+      height: 14px;
+      color: #00d2ff;
+    }
+
+    .highlight-pill {
+      background: rgba(0, 136, 255, 0.15);
+      border-color: rgba(0, 136, 255, 0.4);
+      color: var(--color-white);
+    }
+
+    .toxica-visual-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .tray-representation {
+      width: 280px;
+      height: 280px;
+      background: #11141a;
+      border: 4px solid #1e2430;
+      border-radius: 36px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .tray-surface {
+      width: 90%;
+      height: 90%;
+      border-radius: 26px;
+      background: radial-gradient(circle, #1a202c 0%, #0d1117 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tray-fruit {
+      position: absolute;
+      font-size: 1.8rem;
+    }
+
+    .f-mango { top: 20px; left: 30px; }
+    .f-apple { top: 25px; right: 35px; }
+    .f-watermelon { bottom: 30px; left: 35px; }
+    .f-sauce {
+      bottom: 30px;
+      right: 25px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #00d2ff;
+      background: rgba(0, 136, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .f-sharks {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(255, 30, 86, 0.3);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+    }
+
+    .tray-badge-float {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--color-gray-400);
+    }
+
+    /* ==========================================================================
+       7 & 8. MISIÓN & VISIÓN (ICONOS CORREGIDOS)
+       ========================================================================== */
+    .mission-vision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+    }
+
+    .corp-card {
+      background: var(--bg-card);
+      border: var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 48px 36px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+
+    .corp-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-glass-hover);
+      background: var(--bg-card-hover);
+    }
+
+    .card-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--color-blue);
+      border: var(--border-glass);
+    }
+
+    .corp-title {
+      font-size: 2rem;
+      margin-bottom: 18px;
+      letter-spacing: 0.05em;
+    }
+
+    .corp-text {
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: var(--color-gray-100);
+    }
+
+    .pop-word {
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .pop-blue { color: var(--color-blue); background: rgba(0, 136, 255, 0.1); }
+    .pop-red { color: var(--color-red); background: rgba(255, 30, 86, 0.1); }
+    .pop-purple { color: #c042ff; background: rgba(157, 0, 255, 0.1); }
+
+    /* ==========================================================================
+       9. VALORES INTERACTIVOS (INFORMACIÓN ORGANIZADA)
+       ========================================================================== */
+    .values-interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .value-item {
+      background: rgba(16, 20, 30, 0.5);
+      border: var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 32px 24px;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .value-item:hover, .value-item:focus {
+      background: rgba(24, 30, 46, 0.9);
+      border-color: var(--color-blue);
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(0, 136, 255, 0.2);
+    }
+
+    .value-icon-box {
+      width: 44px;
+      height: 44px;
+      margin: 0 0 16px 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-blue);
+      transition: var(--transition-smooth);
+    }
+
+    .value-item:hover .value-icon-box {
+      background: var(--color-blue);
+      color: var(--color-white);
+    }
+
+    .value-name {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .value-desc {
+      font-size: 0.95rem;
+      color: var(--color-gray-400);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       10. PRESENTACIÓN Y EMPAQUE
+       ========================================================================== */
+    .packaging-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .pack-card {
+      background: var(--bg-card);
+      border: var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 48px 36px;
+      backdrop-filter: blur(16px);
+      transition: var(--transition-smooth);
+    }
+
+    .pack-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-glass-hover);
+    }
+
+    .pack-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--color-blue);
+      margin-bottom: 20px;
+    }
+
+    .pack-visual {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .玻璃-render {
+      width: 60px;
+      height: 120px;
+      border-radius: 4px 4px 16px 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .cup-to-go-render {
+      width: 70px;
+      height: 110px;
+      border-radius: 8px 8px 18px 18px;
+      border: 2px dashed rgba(255,255,255,0.3);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cup-sticker {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--color-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      font-weight: 900;
+      color: #fff;
+      box-shadow: 0 0 12px var(--color-blue-glow);
+    }
+
+    .pack-title {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .pack-text {
+      color: var(--color-gray-400);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .pack-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pack-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--color-gray-100);
+    }
+
+    .pack-list li i {
+      color: var(--color-blue);
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ==========================================================================
+       11. EXPERIENCIA BOOM DRINKS
+       ========================================================================== */
+    .experience-section {
+      position: relative;
+      text-align: center;
+      background: radial-gradient(circle at center, #0f172a 0%, #050608 100%);
+      overflow: hidden;
+    }
+
+    .experience-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      z-index: 2;
+    }
+
+    .exp-small {
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      font-weight: 700;
+      color: var(--color-gray-400);
+      margin-bottom: 24px;
+    }
+
+    .exp-title-1 {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .exp-title-2 {
+      font-size: 5.5rem;
+      font-weight: 900;
+      margin-bottom: 24px;
+      text-shadow: 0 0 50px rgba(0, 136, 255, 0.4);
+    }
+
+    .exp-subtext {
+      font-size: 1.25rem;
+      color: var(--color-gray-400);
+    }
+
+    /* ==========================================================================
+       12. CONTACTO / FOOTER (COMPLETADO)
+       ========================================================================== */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(16, 20, 30, 0.9) 0%, rgba(10, 13, 20, 0.95) 100%);
+      border: var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 70px 40px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+    }
+
+    .contact-title {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-slogan {
+      font-size: 1.3rem;
+      color: var(--color-gray-400);
+      margin-bottom: 40px;
+    }
+
+    .contact-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+      text-align: left;
+    }
+
+    .contact-info-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-info-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 136, 255, 0.15);
+      color: var(--color-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-info-content h4 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .contact-info-content p, .contact-info-content a {
+      font-size: 0.9rem;
+      color: var(--color-gray-400);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .contact-info-content a:hover {
+      color: var(--color-blue);
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .social-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .social-circle:hover {
+      background: var(--color-blue);
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px var(--color-blue-glow);
+    }
+
+    .main-footer {
+      border-top: var(--border-glass);
+      padding: 30px 0;
+      background: #020304;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .footer-legal {
+      font-size: 0.85rem;
+      color: var(--color-gray-400);
+    }
+
+    .footer-tag {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--color-gray-700);
+    }
+
+    /* ANIMACIONES */
+    @keyframes floatSlow {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-40px) scale(1.15); }
+    }
+
+    @keyframes floatTag {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes mouseWheel {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, 12px); }
+    }
+
+    @media (max-width: 1024px) {
+      .showcase-container { grid-template-columns: 1fr; text-align: center; }
+      .showcase-container.reverse { direction: ltr; }
+      .attributes-grid, .toxica-ingredients-grid { justify-content: center; }
+      .toxica-grid { grid-template-columns: 1fr; text-align: center; }
+      .side-navigation { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: flex; }
+      .hero-title { font-size: 3.2rem; }
+      .hero-slogan { font-size: 1.15rem; }
+      .section-title { font-size: 2.2rem; }
+      .showcase-title { font-size: 2.8rem; }
+      .exp-title-1 { font-size: 2.5rem; }
+      .exp-title-2 { font-size: 3rem; }
+      .contact-title { font-size: 2.4rem; }
+      .floating-tag { display: none; }
+    }
+  </style>
 </head>
-<body class="bg-gray-950 text-gray-100 antialiased selection:bg-cyan-500 selection:text-black">
+<body data-theme="hero">
 
-    <!-- Canvas de Fondo para Partículas / Efecto Cinemático -->
-    <div class="fixed inset-0 pointer-events-none z-0 opacity-20">
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 rounded-full filter blur-[120px]"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full filter blur-[120px]"></div>
+  <!-- Resplandor dinámico y partículas canvas -->
+  <div class="ambient-glow" id="ambientGlow"></div>
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Navegación Superior -->
+  <header class="main-header" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo">
+        <img 
+          src="logo-boom.png" 
+          alt="BOOM DRINKS Logo" 
+          class="logo-img"
+          onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='inline-block';"
+        >
+        <span id="brandFallback" class="brand-text">BOOM <span class="accent-text">DRINKS</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#hero" class="nav-link active">Inicio</a>
+        <a href="#productos" class="nav-link">Productos</a>
+        <a href="#la-toxica" class="nav-link">La Tóxica</a>
+        <a href="#nosotros" class="nav-link">Nosotros</a>
+        <a href="#valores" class="nav-link">Valores</a>
+        <a href="#empaque" class="nav-link">Empaque</a>
+        <a href="#contacto" class="nav-link nav-btn">Contacto</a>
+      </nav>
+
+      <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Abrir Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
+  </header>
 
-    <!-- Barra de Navegación -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-                    <i data-lucide="zap" class="text-black w-6 h-6 stroke-[2.5]"></i>
-                </div>
-                <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white via-gray-200 to-cyan-400 bg-clip-text text-transparent">
-                    BOOM DRINKS
-                </span>
-            </div>
-            
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-                <a href="#inicio" class="hover:text-cyan-400 transition-colors">Inicio</a>
-                <a href="#productos" class="hover:text-cyan-400 transition-colors">Bebidas</a>
-                <a href="#experiencia" class="hover:text-cyan-400 transition-colors">Experiencia</a>
-                <a href="#contacto" class="hover:text-cyan-400 transition-colors">Contacto</a>
-            </nav>
+  <!-- Menú Móvil -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" class="mobile-link">Inicio</a>
+    <a href="#productos" class="mobile-link">Productos</a>
+    <a href="#la-toxica" class="mobile-link">La Tóxica</a>
+    <a href="#nosotros" class="mobile-link">Nosotros</a>
+    <a href="#valores" class="mobile-link">Valores</a>
+    <a href="#empaque" class="mobile-link">Presentación</a>
+    <a href="#contacto" class="mobile-link">Contacto</a>
+  </div>
 
-            <div class="flex items-center gap-4">
-                <span class="hidden sm:inline-block px-3 py-1 text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full">
-                    Simulación Académica
-                </span>
-            </div>
+  <!-- Navegación Lateral por Puntos -->
+  <aside class="side-navigation" aria-label="Navegación lateral">
+    <a href="#hero" class="dot-item active" data-tooltip="Portada"><span></span></a>
+    <a href="#productos" class="dot-item" data-tooltip="Productos"><span></span></a>
+    <a href="#blue-shark" class="dot-item" data-tooltip="Blue Shark"><span></span></a>
+    <a href="#cherry-sprite" class="dot-item" data-tooltip="Cherry Sprite"><span></span></a>
+    <a href="#purple-blast" class="dot-item" data-tooltip="Purple Blast"><span></span></a>
+    <a href="#la-toxica" class="dot-item" data-tooltip="La Tóxica"><span></span></a>
+    <a href="#nosotros" class="dot-item" data-tooltip="Misión y Visión"><span></span></a>
+    <a href="#valores" class="dot-item" data-tooltip="Valores"><span></span></a>
+    <a href="#empaque" class="dot-item" data-tooltip="Empaque"><span></span></a>
+    <a href="#experiencia" class="dot-item" data-tooltip="Experiencia"><span></span></a>
+    <a href="#contacto" class="dot-item" data-tooltip="Contacto"><span></span></a>
+  </aside>
+
+  <main>
+    <!-- 1. HERO -->
+    <section class="section hero-section" id="hero" data-theme-color="hero">
+      <div class="hero-content">
+        <div class="hero-badge">NUEVA GENERACIÓN DE BEBIDAS</div>
+        <div class="hero-logo-box">
+          <img 
+            src="logo-boom.png" 
+            alt="BOOM DRINKS" 
+            class="hero-main-logo"
+            onerror="this.style.display='none'; document.getElementById('heroTitleFallback').style.display='block';"
+          >
+          <h1 id="heroTitleFallback" class="hero-title gradient-text" style="display:none;">BOOM DRINKS</h1>
         </div>
-    </header>
+        <p class="hero-slogan">"Un <span class="gradient-text">BOOM</span> de sabor en cada sorbo"</p>
+        
+        <div class="hero-cta-wrapper">
+          <a href="#productos" class="btn btn-primary">EXPLORAR SABORES</a>
+          <a href="#experiencia" class="btn btn-glass">VIVIR LA EXPERIENCIA</a>
+        </div>
+      </div>
 
-    <!-- Sección Hero / Inicio -->
-    <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-20 px-4 sm:px-6 lg:px-8 z-10">
-        <div class="max-w-5xl mx-auto text-center space-y-8">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-cyan-400 text-sm font-medium border border-cyan-500/30 animate-pulse">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> La nueva generación de energía y frescura
+      <div class="hero-floating-elements">
+        <div class="floating-orb orb-blue"></div>
+        <div class="floating-orb orb-red"></div>
+        <div class="floating-orb orb-purple"></div>
+        <div class="floating-tag tag-1">100% ENERGÍA</div>
+        <div class="floating-tag tag-2">SABOR INTENSO</div>
+        <div class="floating-tag tag-3">PREMIUM MIX</div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span class="scroll-text">SCROLL PARA DESCUBRIR</span>
+        <div class="mouse-icon"><div class="wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- 2. RESUMEN DE PRODUCTOS -->
+    <section class="section products-overview-section" id="productos" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">EXPLORA NUESTRO CATÁLOGO</span>
+          <h2 class="section-title">CREACIONES <span class="gradient-text-alt">ICÓNICAS</span></h2>
+          <p class="section-subtitle">Diseñadas para despertar tus sentidos con combinaciones explosivas y texturas únicas.</p>
+        </div>
+
+        <div class="products-grid">
+          <!-- Card 1 -->
+          <div class="product-preview-card card-blue">
+            <div class="card-number">01</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-blue">
+                <div class="ice-cube i1"></div>
+                <div class="ice-cube i2"></div>
+                <div class="gummy-shark">🦈</div>
+                <div class="liquid-level liquid-blue"></div>
+              </div>
             </div>
-            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight leading-tight">
-                Potencia tu día con <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">Boom Drinks</span>
-            </h1>
-            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-400 font-light">
-                Diseñadas para mantenerte al límite de tu rendimiento con una identidad vanguardista, ingredientes de calidad y un sabor inigualable.
+            <h3 class="product-card-title">BLUE SHARK</h3>
+            <p class="product-card-desc">Frescura glacial, gomitas azules y un shot de adrenalina pura.</p>
+            <a href="#blue-shark" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="product-preview-card card-red">
+            <div class="card-number">02</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-red">
+                <div class="ice-cube i1"></div>
+                <div class="cherry-icon">🍒</div>
+                <div class="lime-slice">🍋</div>
+                <div class="liquid-level liquid-red"></div>
+              </div>
+            </div>
+            <h3 class="product-card-title">CHERRY SPRITE</h3>
+            <p class="product-card-desc">Dúo electrizante de cerezas maduras con toque cítrico y efervescente.</p>
+            <a href="#cherry-sprite" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="product-preview-card card-purple">
+            <div class="card-number">03</div>
+            <div class="card-visual">
+              <div class="drink-mockup glass-purple">
+                <div class="ice-cube i1"></div>
+                <div class="mint-leaf">🌿</div>
+                <div class="lime-slice">🍋</div>
+                <div class="liquid-level liquid-purple"></div>
+              </div>
+            </div>
+            <h3 class="product-card-title">PURPLE BLAST</h3>
+            <p class="product-card-desc">Fusión mística azul-púrpura realzada con hierbabuena fresca y limón.</p>
+            <a href="#purple-blast" class="card-link">Ver detalles <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BLUE SHARK -->
+    <section class="section showcase-section theme-blue" id="blue-shark" data-theme-color="blue">
+      <div class="showcase-container">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #01</span>
+          <h2 class="showcase-title">BLUE <span class="highlight-blue">SHARK</span></h2>
+          <p class="showcase-tagline">Frescura que domina las profundidades.</p>
+          <p class="showcase-description">
+            Una impactante presentación azul cristalina servida sobre cubos de hielo crujiente y acompañada con gomitas temáticas de tiburón. Cada sorbo libera una ola refrescante con notas dulces y energizantes.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box"><i data-lucide="snowflake"></i><span>Ultra Frío</span></div>
+            <div class="attribute-box"><i data-lucide="zap"></i><span>Sabor Intenso</span></div>
+            <div class="attribute-box"><i data-lucide="sparkles"></i><span>Gomitas Azules</span></div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo blue-halo"></div>
+          <div class="drink-hero-render render-blue">
+            <img 
+              src="blue-shark.png" 
+              alt="Blue Shark" 
+              class="product-img-real" 
+              onerror="this.style.display='none'; document.getElementById('cup-blue').style.display='block';"
+            >
+            <div class="cup-wrapper" id="cup-blue" style="display:none;">
+              <div class="cup-body">
+                <div class="liquid-fill blue-fill"></div>
+                <div class="floating-item f-ice-1">🧊</div>
+                <div class="floating-item f-ice-2">🧊</div>
+                <div class="floating-item f-shark-1">🦈</div>
+                <div class="floating-item f-shark-2">🦈</div>
+                <div class="straw"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CHERRY SPRITE -->
+    <section class="section showcase-section theme-red" id="cherry-sprite" data-theme-color="red">
+      <div class="showcase-container reverse">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #02</span>
+          <h2 class="showcase-title">CHERRY <span class="highlight-red">SPRITE</span></h2>
+          <p class="showcase-tagline">La chispa rebelde entre dulce y cítrico.</p>
+          <p class="showcase-description">
+            Vibrante bebida en degradados rojo rubí y rosados intensos, infusionada con la esencia viva de cerezas silvestres y rodajas de limón fresco. Una explosión de sabor que cautiva la vista.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box"><i data-lucide="flame"></i><span>Efervescente</span></div>
+            <div class="attribute-box"><i data-lucide="citrus"></i><span>Cítrico & Dulce</span></div>
+            <div class="attribute-box"><i data-lucide="heart"></i><span>Cerezas Reales</span></div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo red-halo"></div>
+          <div class="drink-hero-render render-red">
+            <img 
+              src="cherry-sprite.png" 
+              alt="Cherry Sprite" 
+              class="product-img-real" 
+              onerror="this.style.display='none'; document.getElementById('cup-red').style.display='block';"
+            >
+            <div class="cup-wrapper" id="cup-red" style="display:none;">
+              <div class="cup-body">
+                <div class="liquid-fill red-fill"></div>
+                <div class="floating-item f-cherry-1">🍒</div>
+                <div class="floating-item f-cherry-2">🍒</div>
+                <div class="floating-item f-lime-1">🍋</div>
+                <div class="floating-item f-ice-3">🧊</div>
+                <div class="straw straw-red"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PURPLE BLAST -->
+    <section class="section showcase-section theme-purple" id="purple-blast" data-theme-color="purple">
+      <div class="showcase-container">
+        <div class="showcase-content">
+          <span class="product-number-tag">PRODUCTO #03</span>
+          <h2 class="showcase-title">PURPLE <span class="highlight-purple">BLAST</span></h2>
+          <p class="showcase-tagline">Magia cromática con aroma botánico.</p>
+          <p class="showcase-description">
+            Una fascinante combinación bifásica entre azul profundo y morado cósmico. Equilibrada meticulosamente con zumo de limón y hojas de hierbabuena maceradas para una frescura inigualable.
+          </p>
+          <div class="attributes-grid">
+            <div class="attribute-box"><i data-lucide="sparkle"></i><span>Bifásica</span></div>
+            <div class="attribute-box"><i data-lucide="leaf"></i><span>Hierbabuena</span></div>
+            <div class="attribute-box"><i data-lucide="shield"></i><span>Sabor Místico</span></div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="visual-halo purple-halo"></div>
+          <div class="drink-hero-render render-purple">
+            <img 
+              src="purple-blast.png" 
+              alt="Purple Blast" 
+              class="product-img-real" 
+              onerror="this.style.display='none'; document.getElementById('cup-purple').style.display='block';"
+            >
+            <div class="cup-wrapper" id="cup-purple" style="display:none;">
+              <div class="cup-body">
+                <div class="liquid-fill purple-fill"></div>
+                <div class="floating-item f-mint-1">🌿</div>
+                <div class="floating-item f-mint-2">🌿</div>
+                <div class="floating-item f-lime-2">🍋</div>
+                <div class="floating-item f-ice-4">🧊</div>
+                <div class="straw straw-purple"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PRODUCTO EXTRA: LA TÓXICA -->
+    <section class="section toxica-section" id="la-toxica" data-theme-color="dark">
+      <div class="container">
+        <div class="toxica-card">
+          <div class="toxica-badge">PRODUCTO EXTRA & EXCLUSIVO</div>
+          <div class="toxica-grid">
+            <div class="toxica-text">
+              <h2 class="toxica-title">LA <span class="toxica-accent">TÓXICA</span></h2>
+              <p class="toxica-subtitle">"Un acompañamiento fresco y picosito para disfrutar con nuestras bebidas."</p>
+              <p class="toxica-desc">
+                Una bandeja de fruta preparada de alta calidad, presentada en bandeja negra alimentaria con tapa de seguridad transparente y nuestro sello adhesivo oficial BOOM DRINKS.
+              </p>
+
+              <h4 class="ingredients-title">Ingredientes y Toppings Selectos:</h4>
+              <div class="toxica-ingredients-grid">
+                <span class="ingredient-pill"><i data-lucide="check"></i> Manzana Verde</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Mango Fresco</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Sandía Dulce</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Mamones</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Limón Jugoso</span>
+                <span class="ingredient-pill"><i data-lucide="check"></i> Chile en Polvo</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="flame"></i> Salsa Azul Picosita</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="sparkles"></i> Gomitas de Tiburón</span>
+                <span class="ingredient-pill highlight-pill"><i data-lucide="zap"></i> Snacks Crujientes Azules</span>
+              </div>
+            </div>
+
+            <div class="toxica-visual-box">
+              <img 
+                src="la-toxica.png" 
+                alt="La Tóxica" 
+                class="product-img-real" 
+                onerror="this.style.display='none'; document.getElementById('tray-fallback').style.display='flex';"
+              >
+              <div class="tray-representation" id="tray-fallback" style="display:none;">
+                <div class="tray-surface">
+                  <div class="tray-fruit f-mango">🥭</div>
+                  <div class="tray-fruit f-apple">🍏</div>
+                  <div class="tray-fruit f-watermelon">🍉</div>
+                  <div class="tray-fruit f-sauce">⚡ SALSA AZUL</div>
+                  <div class="tray-fruit f-sharks">🦈 CRUNCH AZUL</div>
+                </div>
+              </div>
+              <div class="tray-badge-float">
+                <i data-lucide="package-check"></i> Bandeja Apta para Alimentos
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 & 8. MISIÓN & VISIÓN -->
+    <section class="section corporate-section" id="nosotros" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">NUESTRA ESENCIA</span>
+          <h2 class="section-title">EL PROPÓSITO DE <span class="gradient-text">BOOM</span></h2>
+        </div>
+
+        <div class="mission-vision-grid">
+          <div class="corp-card">
+            <div class="card-icon"><i data-lucide="rocket"></i></div>
+            <h3 class="corp-title">MISIÓN</h3>
+            <p class="corp-text">
+              Elaborar y comercializar bebidas de 
+              <span class="pop-word pop-blue">CALIDAD</span>, 
+              higiénicas, 
+              <span class="pop-word pop-red">INNOVADORAS</span> 
+              y accesibles, satisfaciendo las necesidades de nuestros clientes y promoviendo el 
+              <span class="pop-word pop-purple">TRABAJO COOPERATIVO</span>, 
+              la 
+              <span class="pop-word pop-blue">RESPONSABILIDAD</span> 
+              y el desarrollo económico de nuestros asociados.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <a href="#productos" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold hover:opacity-90 transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2">
-                    Explorar Bebidas <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </a>
-                <a href="#contacto" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-white font-medium hover:border-cyan-500/50 transition-all">
-                    Saber Más
-                </a>
-            </div>
+          </div>
+
+          <div class="corp-card">
+            <div class="card-icon"><i data-lucide="eye"></i></div>
+            <h3 class="corp-title">VISIÓN</h3>
+            <p class="corp-text">
+              Ser una cooperativa reconocida en el mercado de bebidas por la excelencia, 
+              <span class="pop-word pop-purple">INNOVACIÓN</span> 
+              y variedad de nuestros productos, destacándonos por una 
+              <span class="pop-word pop-red">EXCELENTE ATENCIÓN</span>, 
+              responsabilidad empresarial y un compromiso inquebrantable con la comunidad.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Sección de Productos / Ediciones -->
-    <section id="productos" class="py-24 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center space-y-4 mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Nuestras Ediciones</h2>
-            <p class="text-gray-400 max-w-xl mx-auto">Selección exclusiva pensada para cada momento de alta exigencia académica y personal.</p>
+    <!-- 9. VALORES INTERACTIVOS -->
+    <section class="section values-section" id="valores" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">NUESTROS PILARES</span>
+          <h2 class="section-title">VALORES QUE NOS <span class="gradient-text-alt">IMPULSAN</span></h2>
+          <p class="section-subtitle">Toca o pasa el cursor sobre cada valor para descubrir cómo lo vivimos día a día.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="glass-panel p-8 rounded-2xl relative group hover:border-cyan-500/50 transition-all">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6">
-                    <i data-lucide="flame" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Boom Energy Classic</h3>
-                <p class="text-gray-400 text-sm mb-6">Fórmula original energizante con notas cítricas para dar el 100% en tus jornadas más largas.</p>
-                <div class="text-cyan-400 font-semibold text-sm flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    <span>Disponible</span>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="glass-panel p-8 rounded-2xl relative group hover:border-cyan-500/50 transition-all glow-effect">
-                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6">
-                    <i data-lucide="droplet" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Boom Blue Frost</h3>
-                <p class="text-gray-400 text-sm mb-6">Una explosión refrescante de frutos azules con electrolitos para una hidratación superior.</p>
-                <div class="text-blue-400 font-semibold text-sm flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    <span>Más Vendida</span>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="glass-panel p-8 rounded-2xl relative group hover:border-cyan-500/50 transition-all">
-                <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 mb-6">
-                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Boom Zero Sugar</h3>
-                <p class="text-gray-400 text-sm mb-6">Cero azúcar, máxima vitalidad. Diseñada para mantener un estilo de vida equilibrado y activo.</p>
-                <div class="text-teal-400 font-semibold text-sm flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    <span>Saludable</span>
-                </div>
-            </div>
+
+        <div class="values-interactive-grid">
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="award"></i></div>
+            <h4 class="value-name">Calidad</h4>
+            <p class="value-desc">Insumos seleccionados y procesos rigurosos en cada preparación.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="shield-check"></i></div>
+            <h4 class="value-name">Responsabilidad</h4>
+            <p class="value-desc">Compromiso ético con nuestros clientes, asociados y entorno.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="users"></i></div>
+            <h4 class="value-name">Trabajo en Equipo</h4>
+            <p class="value-desc">Sinergia cooperativa donde cada esfuerzo suma al éxito común.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="lightbulb"></i></div>
+            <h4 class="value-name">Innovación</h4>
+            <p class="value-desc">Reinventamos sabores, presentaciones y sensaciones continuamente.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="scale"></i></div>
+            <h4 class="value-name">Equidad</h4>
+            <p class="value-desc">Trato justo, oportunidades equitativas y bienestar compartido.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="eye"></i></div>
+            <h4 class="value-name">Transparencia</h4>
+            <p class="value-desc">Claridad absoluta en nuestros ingredientes y operaciones.</p>
+          </div>
+          <div class="value-item" tabindex="0">
+            <div class="value-icon-box"><i data-lucide="sparkles"></i></div>
+            <h4 class="value-name">Higiene</h4>
+            <p class="value-desc">Protocolos de inocuidad impecables en cada etapa del servicio.</p>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Sección de Experiencia / Estructura Visual Organizada -->
-    <section id="experiencia" class="py-24 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-gray-800 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
-                    Innovación Visual
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Diseñado para destacar en tu reporte</h2>
-                <p class="text-gray-400 text-base leading-relaxed">
-                    Cada componente de Boom Drinks ha sido estructurado con precisión para mantener una jerarquía limpia, evitando solapamientos visuales y asegurando que la presentación de identidad corporativa luzca impecable tanto en pantalla como en documentación impresa.
-                </p>
-                <ul class="space-y-3 text-sm text-gray-300">
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="check-circle-2" class="text-cyan-400 w-5 h-5 flex-shrink-0"></i> Distribución simétrica de elementos e iconos
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="check-circle-2" class="text-cyan-400 w-5 h-5 flex-shrink-0"></i> Tarjetas adaptativas con efectos Glassmorphism
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="check-circle-2" class="text-cyan-400 w-5 h-5 flex-shrink-0"></i> Preparado para integración futura de asistentes virtuales
-                    </li>
-                </ul>
-            </div>
-            <div class="relative flex items-center justify-center p-6 bg-gray-900/50 rounded-2xl border border-gray-800/80">
-                <!-- Contenedor optimizado y ordenado para evitar errores de desbordamiento o desajuste de elementos visuales -->
-                <div class="text-center space-y-4">
-                    <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 glow-effect">
-                        <i data-lucide="layers" class="w-10 h-10"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-white">Estructura Corporativa Estable</h4>
-                    <p class="text-xs text-gray-400 max-w-xs mx-auto">Bloques de contenido perfectamente alineados sin riesgos de superposición gráfica.</p>
-                </div>
-            </div>
+    <!-- 10. PRESENTACIÓN Y EMPAQUE -->
+    <section class="section packaging-section" id="empaque" data-theme-color="dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-badge">DISEÑO Y SERVICIO</span>
+          <h2 class="section-title">PRESENTACIÓN & <span class="gradient-text">EMPAQUE</span></h2>
+          <p class="section-subtitle">Envases concebidos para apreciar los colores vivos, el hielo cristalino y la decoración de autor.</p>
         </div>
+
+        <div class="packaging-grid">
+          <div class="pack-card">
+            <div class="pack-badge">EXPERIENCIA EN MESA</div>
+            <div class="pack-visual">
+              <img 
+                src="vaso-vidrio.png" 
+                alt="Vaso de vidrio" 
+                class="product-img-real" 
+                style="max-height:130px; width:auto;"
+                onerror="this.style.display='none'; document.getElementById('render-vidrio').style.display='block';"
+              >
+              <div class="glass-render" id="render-vidrio" style="display:none;"></div>
+            </div>
+            <h3 class="pack-title">Consumo en el Lugar</h3>
+            <p class="pack-text">Servido en elegantes vasos largos de vidrio templado que permiten una visión de 360° de la mezcla, resaltando la pureza del hielo y la viveza de los colores.</p>
+            <ul class="pack-list">
+              <li><i data-lucide="check-circle-2"></i> Cristal ultra transparente</li>
+              <li><i data-lucide="check-circle-2"></i> Mantiene la temperatura óptima</li>
+              <li><i data-lucide="check-circle-2"></i> Decoración visible al 100%</li>
+            </ul>
+          </div>
+
+          <div class="pack-card">
+            <div class="pack-badge">ON THE GO</div>
+            <div class="pack-visual">
+              <img 
+                src="vaso-llevar.png" 
+                alt="Vaso para llevar" 
+                class="product-img-real" 
+                style="max-height:130px; width:auto;"
+                onerror="this.style.display='none'; document.getElementById('render-llevar').style.display='flex';"
+              >
+              <div class="cup-to-go-render" id="render-llevar" style="display:none;">
+                <div class="cup-sticker"><span>BOOM</span></div>
+              </div>
+            </div>
+            <h3 class="pack-title">Para Llevar</h3>
+            <p class="pack-text">Vaso desechable transparente de alta densidad con tapa hermética anti-derrames, pajilla ergonómica y nuestra etiqueta adhesiva circular oficial.</p>
+            <ul class="pack-list">
+              <li><i data-lucide="check-circle-2"></i> Tapa de seguridad hermética</li>
+              <li><i data-lucide="check-circle-2"></i> Pajilla resistente</li>
+              <li><i data-lucide="check-circle-2"></i> Etiqueta oficial circular</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Sección de Contacto -->
-    <section id="contacto" class="py-24 relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-gray-800">
-            <div class="text-center space-y-4 mb-12">
-                <h2 class="text-3xl font-bold">Ponte en Contacto</h2>
-                <p class="text-gray-400">¿Tienes preguntas sobre el proyecto, distribución o quieres saber más de Boom Drinks?</p>
-            </div>
-            
-            <form class="space-y-6" onsubmit="event.preventDefault(); alert('¡Gracias por tu mensaje! (Simulación de envío)');">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nombre</label>
-                        <input type="text" required class="w-full bg-gray-900/60 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Tu nombre">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Correo Electrónico</label>
-                        <input type="email" required class="w-full bg-gray-900/60 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="tu@correo.com">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Mensaje</label>
-                    <textarea rows="4" required class="w-full bg-gray-900/60 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Escribe tu mensaje aquí..."></textarea>
-                </div>
-                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold hover:opacity-90 transition-all shadow-lg shadow-cyan-500/25">
-                    Enviar Mensaje
-                </button>
-            </form>
-
-            <div class="contact-footer text-center mt-12">
-                <p class="text-gray-400 text-sm">¿Tienes dudas sobre nuestros productos o distribución? Escríbenos directamente y te responderemos a la brevedad.</p>
-            </div>
-        </div>
+    <!-- 11. EXPERIENCIA BOOM DRINKS -->
+    <section class="section experience-section" id="experiencia" data-theme-color="dark">
+      <div class="experience-content text-center">
+        <h3 class="exp-small">REDEFINIENDO EL CONCEPTO</h3>
+        <h2 class="exp-title-1">NO ES SOLO UNA BEBIDA.</h2>
+        <h2 class="exp-title-2 gradient-text">ES UN BOOM DE SABOR.</h2>
+        <p class="exp-subtext">Una explosión refrescante que fusiona la coctelería moderna con la cultura urbana.</p>
+      </div>
     </section>
 
-    <!-- Footer Corporativo -->
-    <footer class="site-footer bg-gray-950 border-t border-gray-900 py-12 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div class="space-y-4">
-                    <h3 class="text-xl font-bold tracking-wider text-white flex items-center gap-2">
-                        <i data-lucide="zap" class="text-cyan-400 w-5 h-5"></i> Boom Drinks
-                    </h3>
-                    <p class="text-gray-400 text-sm">
-                        Innovación, energía y frescura en cada sorbo. Diseñado para potenciar tus mejores momentos con estilo y vitalidad.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">Navegación</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#inicio" class="hover:text-cyan-400 transition-colors">Inicio</a></li>
-                        <li><a href="#productos" class="hover:text-cyan-400 transition-colors">Bebidas</a></li>
-                        <li><a href="#experiencia" class="hover:text-cyan-400 transition-colors">Experiencia</a></li>
-                        <li><a href="#contacto" class="hover:text-cyan-400 transition-colors">Contacto</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">Legal & Académico</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><span class="text-gray-500">Proyecto Escolar de Emprendimiento</span></li>
-                        <li><span class="text-gray-500">Simulación Comercial</span></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Términos y Privacidad</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">Conéctate</h4>
-                    <p class="text-gray-400 text-sm mb-4">Próximamente canal de atención automatizado vía WhatsApp.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all">
-                            <i data-lucide="twitter" class="w-5 h-5"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-900/80 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
-                <p>&copy; 2026 Boom Drinks. Todos los derechos reservados. Proyecto Académico.</p>
-                <p class="mt-2 sm:mt-0">Diseñado con estándares profesionales e interactividad GSAP.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- 12. CONTACTO / FOOTER -->
+    <section class="section contact-section" id="contacto" data-theme-color="dark">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-header text-center">
+            <span class="sub-badge">ESTAMOS PARA SERVIRTE</span>
+            <h2 class="contact-title">PONTE EN <span class="gradient-text">CONTACTO</span></h2>
+            <p class="contact-slogan">¿Tienes dudas, quieres realizar un pedido o un evento? Escríbenos y vive la experiencia.</p>
+          </div>
 
-    <!-- Inicialización de Iconos Lucide -->
-    <script>
-        lucide.createIcons();
-    </script>
+          <div class="contact-info-grid">
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><i data-lucide="map-pin"></i></div>
+              <div class="contact-info-content">
+                <h4>Ubicación</h4>
+                <p>Campus Universitario / San Salvador, El Salvador</p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><i data-lucide="phone"></i></div>
+              <div class="contact-info-content">
+                <h4>Teléfono / WhatsApp</h4>
+                <p><a href="tel:+50300000000">+503 0000-0000</a></p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><i data-lucide="mail"></i></div>
+              <div class="contact-info-content">
+                <h4>Correo Electrónico</h4>
+                <p><a href="mailto:contacto@boomdrinks.com">contacto@boomdrinks.com</a></p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><i data-lucide="clock"></i></div>
+              <div class="contact-info-content">
+                <h4>Horario de Atención</h4>
+                <p>Lunes a Viernes: 8:00 AM - 5:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-actions">
+            <a href="https://wa.me/50300000000" target="_blank" class="btn btn-primary btn-large">
+              <i data-lucide="message-circle"></i> ESCRIBIR POR WHATSAPP
+            </a>
+            <a href="mailto:contacto@boomdrinks.com" class="btn btn-glass btn-large">
+              <i data-lucide="mail"></i> MANDAR UN CORREO
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="social-circle" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" class="social-circle" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" class="social-circle" aria-label="TikTok"><i data-lucide="video"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Principal -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          BOOM <span class="accent-text">DRINKS</span>
+        </div>
+        <div class="footer-legal">
+          &copy; 2026 BOOM DRINKS. Todos los derechos reservados. Proyecto Escolar de Emprendimiento.
+        </div>
+        <div class="footer-tag">
+          UN BOOM DE SABOR
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts de interactividad y animaciones -->
+  <script>
+    // Inicializar iconos de Lucide
+    lucide.createIcons();
+
+    // Header scrolleado
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('navbar');
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Menú móvil toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // Canvas de partículas sutiles de fondo
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+      }
+
+      draw() {
+        ctx.fillStyle = `rgba(0, 136, 255, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((width * height) / 20000);
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+  </script>
 </body>
 </html>
