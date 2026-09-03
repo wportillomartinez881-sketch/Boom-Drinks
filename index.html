@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;700;800;900&display=swap" rel="stylesheet">
+
 <!-- Three.js & Lucide Icons CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -33,7 +34,6 @@
   --pad: clamp(20px, 3.6vw, 64px);
   --nav-h: 84px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -125,7 +125,6 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
   background: rgba(4, 6, 8, 0.88); backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line-soft); height: 72px;
 }
-.nav.hide { transform: translate3d(0, -101%, 0); }
 .brand { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
 .brand img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 0 10px var(--blue-glow)); }
 .brand-tx { display: flex; flex-direction: column; line-height: 1.1; }
@@ -185,7 +184,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
 
 /* BORDES ILUMINADOS POR PROXIMIDAD DEL CURSOR */
 .spotlight-card {
-  position: relative; background: rgba(10, 14, 22, 0.75); border-radius: 20px;
+  position: relative; background: rgba(10, 14, 22, 0.78); border-radius: 20px;
   padding: clamp(24px, 3.2vw, 44px); backdrop-filter: blur(20px); overflow: hidden;
   transition: transform 0.4s var(--ease-out), background 0.4s;
 }
@@ -196,7 +195,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
 }
-.spotlight-card:hover { transform: translateY(-6px); background: rgba(16, 22, 34, 0.9); }
+.spotlight-card:hover { transform: translateY(-6px); background: rgba(16, 22, 34, 0.92); }
 
 /* SECCIONES */
 .sec {
@@ -207,7 +206,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
 
 /* HERO */
 .hero { position: relative; min-height: 100vh; padding: 0 var(--pad); display: flex; flex-direction: column; justify-content: space-between; }
-.hero-top { padding-top: calc(var(--nav-h) + clamp(20px, 4vh, 50px)); max-width: min(780px, 75vw); }
+.hero-top { padding-top: calc(var(--nav-h) + clamp(20px, 4vh, 50px)); max-width: min(780px, 75vw); z-index: 2; }
 .hero-foot { padding-bottom: clamp(24px, 4vh, 48px); z-index: 2; }
 .chapters {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 2.4vw, 36px);
@@ -257,33 +256,28 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
   color: var(--blue); margin-bottom: 20px;
 }
 
-/* CONTACTO */
-.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(30px, 5vw, 60px); }
-.contact-item {
-  display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); margin-bottom: 16px;
-  transition: all 0.3s;
+/* CONTACTO REDISEÑADO SIN FORMULARIO */
+.contact-grid-clean {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
 }
-.contact-item:hover { background: rgba(0, 136, 255, 0.12); border-color: var(--blue); transform: translateX(6px); }
-.contact-item-icon {
-  width: 44px; height: 44px; border-radius: 50%; background: rgba(0, 136, 255, 0.15);
-  display: grid; place-items: center; color: var(--blue);
+.contact-card-premium {
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 36px 32px; border-radius: 24px; min-height: 260px;
 }
-
-.form-group { margin-bottom: 18px; }
-.form-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bone-dim); margin-bottom: 8px; }
-.form-input, .form-textarea, .form-select {
-  width: 100%; padding: 14px 18px; background: rgba(5, 7, 10, 0.85); border: 1px solid var(--line);
-  border-radius: 12px; color: #fff; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s;
+.contact-card-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
 }
-.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--blue); box-shadow: 0 0 20px var(--blue-glow); }
+.contact-icon-large {
+  width: 54px; height: 54px; border-radius: 50%;
+  display: grid; place-items: center; flex-shrink: 0;
+}
 
 /* FOOTER */
 .foot { border-top: 1px solid var(--line-soft); padding: 40px var(--pad); background: #020305; font-size: 12px; color: var(--muted); }
 .foot-base { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 
 @media (max-width: 900px) {
-  .gate-grid, .gate-grid.reverse, .grid-2, .contact-grid { grid-template-columns: 1fr; }
+  .gate-grid, .gate-grid.reverse, .grid-2, .contact-grid-clean { grid-template-columns: 1fr; }
   .chapters { grid-template-columns: repeat(2, 1fr); }
   .rail { display: none; }
   .nav-links { display: none; }
@@ -307,7 +301,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     <div class="pre-title">BOOM DRINKS</div>
     <div class="pre-bar"><i id="pre-fill"></i></div>
     <div class="pre-meta">
-      <span>Cargando Universo 3D</span><b><span id="pre-pct">0</span>%</b>
+      <span>Iniciando Entorno 3D</span><b><span id="pre-pct">0</span>%</b>
     </div>
   </div>
 </div>
@@ -341,24 +335,24 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
   <!-- ============================================================ CAPÍTULO 00: HERO -->
   <section class="sec hero" id="hero" data-cam="0">
     <div class="hero-top">
-      <div class="eyebrow" data-rv="fade"><span class="dot"></span> CAPÍTULO 00 — INICIO DEL VIAJE</div>
+      <div class="eyebrow" data-rv="fade"><span class="dot"></span> CAPÍTULO 00 — EXPERIENCIA COOPERATIVA</div>
       <h1 class="display h-hero">
         <span class="mask-line"><span>UN <span class="gradient-text">BOOM</span> DE SABOR</span></span>
         <span class="mask-line"><span>EN CADA SORBO.</span></span>
       </h1>
       <p class="body-lg" data-rv="up" style="margin: 20px 0 34px;">
-        Descubre la nueva generación de mixología urbana: bebidas artesanales de alta intensidad, hielo glacial y acompañamientos gourmet preparados al momento.
+        Mixología artesanal urbana de alta intensidad, frío glacial y botanas de autor preparadas para elevar tus sentidos.
       </p>
       <div data-rv="up" style="display: flex; gap: 16px; flex-wrap: wrap;">
         <a class="btn btn-primary" href="#blue-shark" data-cursor><i data-lucide="sparkles"></i> EXPLORAR SABORES</a>
-        <a class="btn btn-glass" href="#contacto" data-cursor><i data-lucide="send"></i> CONTACTAR</a>
+        <a class="btn btn-glass" href="#contacto" data-cursor><i data-lucide="map-pin"></i> CONTACTAR / VISITAR</a>
       </div>
     </div>
 
     <div class="hero-foot">
       <div class="chapters" id="chips">
         <div class="chip" data-chip="1" data-rv="up" data-cursor>
-          <span class="num">01</span><b>Blue Shark</b><p>Frescura glacial & adrenalina pura.</p>
+          <span class="num">01</span><b>Blue Shark</b><p>Frescura glacial & adrenalina.</p>
         </div>
         <div class="chip" data-chip="2" data-rv="up" data-cursor>
           <span class="num">02</span><b>Cherry Sprite</b><p>Chispa dulce con cítricos vivos.</p>
@@ -367,7 +361,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
           <span class="num">03</span><b>Purple Blast</b><p>Misterio bifásico & hierbabuena.</p>
         </div>
         <div class="chip" data-chip="4" data-rv="up" data-cursor>
-          <span class="num">04</span><b>La Tóxica</b><p>Bandeja gourmet de fruta y chile.</p>
+          <span class="num">04</span><b>La Tóxica</b><p>Bandeja gourmet frutal y picosita.</p>
         </div>
       </div>
     </div>
@@ -542,18 +536,20 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
       <h2 class="display h-sec" data-rv="up" style="margin-bottom: 40px;">PRESENTACIÓN & <span class="gradient-text">EMPAQUE</span></h2>
 
       <div class="grid-2">
+        <!-- Vaso Vidrio -->
         <div class="spotlight-card" data-rv="up" data-cursor>
           <div style="height:260px; border-radius:16px; overflow:hidden; margin-bottom:20px;">
-            <img src="blue-shark-glass.png" alt="Consumo en el lugar" style="width:100%; height:100%; object-fit:cover;">
+            <img src="vaso-vidrio.png" alt="Consumo en el lugar" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <span style="font-size:11px; font-weight:700; color:var(--blue); letter-spacing:0.18em;">EXPERIENCIA EN MESA</span>
           <h3 style="font-size:24px; margin:8px 0 10px;">Vaso de Vidrio Labrado</h3>
           <p class="body">Servido en elegantes vasos largos de cristal con escarchado temático, permitiendo apreciar los 360° del hielo y la viveza de los colores.</p>
         </div>
 
+        <!-- Vaso Llevar -->
         <div class="spotlight-card" data-rv="up" data-cursor>
           <div style="height:260px; border-radius:16px; overflow:hidden; margin-bottom:20px;">
-            <img src="blue-shark-togo.png" alt="Para llevar" style="width:100%; height:100%; object-fit:cover;">
+            <img src="vaso-llevar.png" alt="Para llevar" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <span style="font-size:11px; font-weight:700; color:var(--purple); letter-spacing:0.18em;">ON THE GO / TAKE OUT</span>
           <h3 style="font-size:24px; margin:8px 0 10px;">Vaso Desechable con Domo</h3>
@@ -563,71 +559,78 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     </div>
   </section>
 
-  <!-- ============================================================ CAPÍTULO 07: CONTACTO -->
+  <!-- ============================================================ CAPÍTULO 07: CONTACTO REDISEÑADO -->
   <section class="sec" id="contacto" data-cam="7">
     <div class="container">
-      <div class="eyebrow" data-rv="fade"><span class="dot"></span> CAPÍTULO 07 — ATENCIÓN DIRECTA</div>
-      <h2 class="display h-sec" data-rv="up" style="margin-bottom: 40px;">¿LISTO PARA EL <span class="gradient-text">BOOM</span>?</h2>
+      <div class="eyebrow" data-rv="fade"><span class="dot"></span> CAPÍTULO 07 — ATENCIÓN & UBICACIÓN</div>
+      <h2 class="display h-sec" data-rv="up" style="margin-bottom: 20px;">¿LISTO PARA EL <span class="gradient-text">BOOM</span>?</h2>
+      <p class="body-lg" data-rv="up" style="margin-bottom: 48px; max-width: 680px;">
+        Conéctate directamente con nosotros a través de nuestras plataformas oficiales o visítanos en nuestra sede.
+      </p>
 
-      <div class="contact-grid">
-        <div data-rv="up">
-          <h3 style="font-size: 24px; margin-bottom: 16px;">Canales de Contacto</h3>
-          <p class="body-lg" style="margin-bottom: 28px;">Haz tus pedidos directos, cotizaciones para eventos o solicitudes empresariales con nuestro equipo.</p>
-
-          <a href="https://wa.me/50370000000?text=Hola%20BOOM%20DRINKS,%20quiero%20hacer%20un%20pedido" target="_blank" class="contact-item" data-cursor>
-            <div class="contact-item-icon"><i data-lucide="message-circle"></i></div>
-            <div>
-              <b style="display:block; font-size:15px;">WhatsApp Oficial</b>
-              <span style="font-size:12px; color:var(--muted);">+503 7000-0000 (Chat Inmediato)</span>
+      <div class="contact-grid-clean">
+        <!-- Tarjeta 1: Instagram -->
+        <div class="spotlight-card contact-card-premium" data-rv="up">
+          <div>
+            <div class="contact-card-header">
+              <div class="contact-icon-large" style="color:var(--red); background:rgba(255,30,86,0.15)">
+                <i data-lucide="instagram" style="width:28px; height:28px;"></i>
+              </div>
+              <div>
+                <b style="font-size:18px; display:block;">Instagram Oficial</b>
+                <span style="font-size:13px; color:var(--muted);">Comunidad & Novedades</span>
+              </div>
             </div>
-          </a>
-
-          <a href="https://instagram.com/boomdrinks.sv" target="_blank" class="contact-item" data-cursor>
-            <div class="contact-item-icon" style="color:var(--red); background:rgba(255,30,86,0.15)"><i data-lucide="instagram"></i></div>
-            <div>
-              <b style="display:block; font-size:15px;">Instagram</b>
-              <span style="font-size:12px; color:var(--muted);">@boomdrinks.sv</span>
-            </div>
-          </a>
-
-          <div class="contact-item">
-            <div class="contact-item-icon" style="color:var(--purple); background:rgba(157,0,255,0.15)"><i data-lucide="map-pin"></i></div>
-            <div>
-              <b style="display:block; font-size:15px;">Sede Central</b>
-              <span style="font-size:12px; color:var(--muted);">El Salvador, Centroamérica</span>
-            </div>
+            <p class="body" style="margin-bottom:24px;">
+              Síguenos para enterarte de nuevos sabores, promociones y dinámicas exclusivas.
+            </p>
           </div>
+          <a href="https://instagram.com/boomdrinks.sv" target="_blank" class="btn btn-primary" style="background:linear-gradient(135deg, var(--red), #b00030); width:100%; justify-content:center;" data-cursor>
+            <i data-lucide="instagram"></i> IR A @BOOMDRINKS.SV
+          </a>
         </div>
 
-        <div class="spotlight-card" data-rv="up">
-          <h3 style="font-size: 22px; margin-bottom: 20px;">Envíanos un Mensaje</h3>
-          <form onsubmit="event.preventDefault(); alert('¡Solicitud enviada con éxito! El equipo de BOOM DRINKS te contactará.');">
-            <div class="form-group">
-              <label class="form-label">Nombre Completo</label>
-              <input type="text" class="form-input" placeholder="Ej. Carlos Mendoza" required>
+        <!-- Tarjeta 2: WhatsApp -->
+        <div class="spotlight-card contact-card-premium" data-rv="up">
+          <div>
+            <div class="contact-card-header">
+              <div class="contact-icon-large" style="color:var(--blue); background:rgba(0,136,255,0.15)">
+                <i data-lucide="message-circle" style="width:28px; height:28px;"></i>
+              </div>
+              <div>
+                <b style="font-size:18px; display:block;">WhatsApp Directo</b>
+                <span style="font-size:13px; color:var(--muted);">Pedidos & Consultas</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono de Contacto</label>
-              <input type="tel" class="form-input" placeholder="Ej. +503 7000-0000" required>
+            <p class="body" style="margin-bottom:24px;">
+              Haz tus pedidos anticipados, cotizaciones o consultas de menú en tiempo real.
+            </p>
+          </div>
+          <a href="https://wa.me/50370000000?text=Hola%20BOOM%20DRINKS,%20quiero%20hacer%20un%20pedido%20o%20consulta." target="_blank" class="btn btn-primary" style="width:100%; justify-content:center;" data-cursor>
+            <i data-lucide="message-circle"></i> CHATEAR POR WHATSAPP
+          </a>
+        </div>
+
+        <!-- Tarjeta 3: Dirección INS San Bartolo -->
+        <div class="spotlight-card contact-card-premium" data-rv="up">
+          <div>
+            <div class="contact-card-header">
+              <div class="contact-icon-large" style="color:var(--purple); background:rgba(157,0,255,0.15)">
+                <i data-lucide="map-pin" style="width:28px; height:28px;"></i>
+              </div>
+              <div>
+                <b style="font-size:18px; display:block;">Sede Oficial</b>
+                <span style="font-size:13px; color:var(--muted);">Punto de Encuentro</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Bebida / Botana de Interés</label>
-              <select class="form-select">
-                <option value="blue-shark">Blue Shark</option>
-                <option value="cherry-sprite">Cherry Sprite</option>
-                <option value="purple-blast">Purple Blast</option>
-                <option value="la-toxica">La Tóxica</option>
-                <option value="combo">Combo Completo</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Mensaje o Pedido Especial</label>
-              <textarea rows="3" class="form-textarea" placeholder="Escribe aquí los detalles..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-cursor>
-              <i data-lucide="send"></i> ENVIAR SOLICITUD
-            </button>
-          </form>
+            <p class="body" style="margin-bottom:24px;">
+              <b>Instituto Nacional de San Bartolo (INSB)</b><br>
+              Ilopango, San Salvador, El Salvador, C.A.
+            </p>
+          </div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Instituto+Nacional+de+San+Bartolo+Ilopango" target="_blank" class="btn btn-glass" style="width:100%; justify-content:center; border-color:rgba(157,0,255,0.4);" data-cursor>
+            <i data-lucide="map"></i> VER EN GOOGLE MAPS
+          </a>
         </div>
       </div>
     </div>
@@ -638,7 +641,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     <div class="container foot-base">
       <div>
         <b style="font-family:'Syne', sans-serif; font-size:14px; letter-spacing:0.1em; color:#fff;">BOOM DRINKS</b>
-        <span style="margin-left:8px;">&bull; Nombre Jurídico: <b>BOOM DRINKS de R.L.</b></span>
+        <span style="margin-left:8px;">&bull; Razón Social: <b>BOOM DRINKS de R.L.</b></span>
       </div>
       <div>
         <span>&copy; 2026 Todos los derechos reservados.</span>
@@ -649,7 +652,7 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
 </div><!-- /.page -->
 
 <!-- ============================================================
-     MOTOR THREE.JS EN VIVO + KAGE ENGINE REPLICA
+     MOTOR THREE.JS EN VIVO + LUNA 3D CINEMÁTICA
      ============================================================ -->
 <script>
 (function() {
@@ -689,9 +692,9 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     });
   });
 
-  // 4. Three.js Scene Setup (Mundo 3D con Shaders y Cámara Spline)
+  // 4. Three.js Scene Setup (Mundo 3D con Luna.png y Cámara Spline)
   const canvas = document.getElementById('gl');
-  let renderer, scene, camera;
+  let renderer, scene, camera, moonMesh, moonHaloMesh;
   const CAM_NODES = [
     { p: [ 0.0, 3.5, 14.0 ], t: [ 0.0, 5.5, -20.0 ], fov: 38 }, // Hero
     { p: [ -4.5, 2.8,  8.0 ], t: [ 1.0, 4.2, -15.0 ], fov: 44 }, // Blue Shark
@@ -715,27 +718,26 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     renderer.toneMappingExposure = 1.1;
 
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x040608, 0.022);
+    scene.fog = new THREE.FogExp2(0x040608, 0.02);
 
-    camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.2, 180);
+    camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.2, 220);
     scene.add(camera);
 
     curveP = new THREE.CatmullRomCurve3(CAM_NODES.map(c => new THREE.Vector3(...c.p)), false, 'catmullrom', 0.4);
     curveT = new THREE.CatmullRomCurve3(CAM_NODES.map(c => new THREE.Vector3(...c.t)), false, 'catmullrom', 0.4);
 
     // Iluminación
-    scene.add(new THREE.HemisphereLight(0x4080ff, 0x040608, 0.4));
+    scene.add(new THREE.HemisphereLight(0x4080ff, 0x040608, 0.5));
     const keyL = new THREE.DirectionalLight(0x70c0ff, 1.8);
     keyL.position.set(5, 18, 10);
     scene.add(keyL);
 
-    // Luz de Neón Azul y Roja en el fondo
-    const neonBlue = new THREE.PointLight(0x0088ff, 4.0, 35, 2);
-    neonBlue.position.set(-6, 4, -10);
+    const neonBlue = new THREE.PointLight(0x0088ff, 4.0, 40, 2);
+    neonBlue.position.set(-6, 6, -10);
     scene.add(neonBlue);
 
-    const neonRed = new THREE.PointLight(0xff1e56, 3.5, 30, 2);
-    neonRed.position.set(6, 4, -18);
+    const neonRed = new THREE.PointLight(0xff1e56, 3.5, 35, 2);
+    neonRed.position.set(6, 6, -18);
     scene.add(neonRed);
 
     // Suelo reflectante húmedo
@@ -748,21 +750,56 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
     floor.position.y = 0;
     scene.add(floor);
 
-    // Anillos de energía flotantes
-    const ringGeo = new THREE.TorusGeometry(8, 0.08, 16, 100);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x0088ff, transparent: true, opacity: 0.35 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.set(0, 8, -25);
-    ring.rotation.x = Math.PI / 3;
-    scene.add(ring);
+    // ==========================================
+    // LUNA 3D EN EL FONDO (luna.png)
+    // ==========================================
+    const textureLoader = new THREE.TextureLoader();
+    const moonTex = textureLoader.load('luna.png');
+    moonTex.encoding = THREE.sRGBEncoding;
 
-    // Partículas de escarcha / niebla glacial
+    const moonGeo = new THREE.PlaneGeometry(16, 16);
+    const moonMat = new THREE.MeshBasicMaterial({
+      map: moonTex,
+      transparent: true,
+      depthWrite: false,
+      color: new THREE.Color(0xd0e8ff)
+    });
+
+    moonMesh = new THREE.Mesh(moonGeo, moonMat);
+    moonMesh.position.set(12, 14, -38);
+    scene.add(moonMesh);
+
+    // Resplandor / Corona de la Luna
+    const haloCanvas = document.createElement('canvas');
+    haloCanvas.width = haloCanvas.height = 256;
+    const hctx = haloCanvas.getContext('2d');
+    const hgrad = hctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    hgrad.addColorStop(0, 'rgba(0, 180, 255, 0.6)');
+    hgrad.addColorStop(0.35, 'rgba(157, 0, 255, 0.2)');
+    hgrad.addColorStop(0.7, 'rgba(0, 136, 255, 0.05)');
+    hgrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    hctx.fillStyle = hgrad;
+    hctx.fillRect(0, 0, 256, 256);
+
+    const haloTex = new THREE.CanvasTexture(haloCanvas);
+    const haloMat = new THREE.MeshBasicMaterial({
+      map: haloTex,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      opacity: 0.8
+    });
+    moonHaloMesh = new THREE.Mesh(new THREE.PlaneGeometry(38, 38), haloMat);
+    moonHaloMesh.position.set(12, 14, -38.2);
+    scene.add(moonHaloMesh);
+
+    // Partículas de escarcha / polvo glacial
     const pCount = 500;
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(pCount * 3);
     for (let i = 0; i < pCount * 3; i += 3) {
       pPos[i] = (Math.random() - 0.5) * 50;
-      pPos[i + 1] = Math.random() * 16;
+      pPos[i + 1] = Math.random() * 18;
       pPos[i + 2] = (Math.random() - 0.5) * 60;
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
@@ -841,6 +878,11 @@ h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin: 0; l
 
     camera.position.copy(curP);
     camera.lookAt(curT);
+
+    // Animación suave de la Luna
+    if (moonMesh) {
+      moonMesh.rotation.z = Math.sin(clock.getElapsedTime() * 0.1) * 0.05;
+    }
 
     // Actualizar puntos del rail
     const activeIdx = Math.round(RIG.smooth);
